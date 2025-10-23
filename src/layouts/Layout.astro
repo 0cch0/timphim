@@ -1,0 +1,61 @@
+---
+import SearchForm from '../components/SearchForm.astro'
+
+function getTitle(name = "Tìm Phim") {
+	const title = Astro.props.title
+	return title ? `${title} | ${name}` : name
+}
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+		<title>{getTitle()}</title>
+	</head>
+	<body>
+		<header>
+			<a href="/"><b>Tìm Phim</b></a>
+			<SearchForm />
+		</header>
+		<slot />
+	</body>
+	<style is:global>
+		* {
+			box-sizing: border-box;
+		}
+		a {
+			text-decoration: none;
+			color: inherit;
+			&:hover {
+				color: mediumblue;
+			}
+		}
+		input, button {
+			font-size: inherit;
+			outline: none;
+		}
+		html {
+			background: gainsboro;
+			font-family: 'Univers LT Pro', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+			font-size: 14px;
+			padding: 2rem 0.8rem;
+		}
+		body {
+			max-width: 60rem;
+			background: whitesmoke;
+			border: 1px solid gray;
+			box-shadow: 2px 2px silver;
+			margin: 0 auto;
+			padding: 1rem 1.4rem;
+		}
+		header {
+			padding-bottom: 1.5rem;
+		}
+	</style>
+</html>
+

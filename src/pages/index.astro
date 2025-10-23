@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro'
+import List from '../components/List.astro'
+import { fetchTMDB } from '../tmdb.ts'
+
+const res = await fetchTMDB('/trending/all/day')
+const data = await res.json()
+---
+<Layout>
+	<List title="Thịnh hành" list={data.results}>
+</Layout>

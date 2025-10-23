@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro'
+import List from '../components/List.astro'
+import { fetchTMDB } from '../tmdb.ts'
+
+const query = Astro.url.searchParams.get('query') || ''
+const title = `Tìm kiếm: ${query}`
+
+const res = await fetchTMDB('/search/multi', { query })
+const data = await res.json()
+const list = data.results.filter(x => x.poster_path)
+---
+
+<Layout title={title}>
+	<List title={title} list={list}>
+</Layout>

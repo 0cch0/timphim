@@ -1,0 +1,45 @@
+---
+const query = Astro.url.searchParams.get('query') || ''
+---
+
+<form action="/search">
+	<input type="search" placeholder="🔍 nhập tên phim | IMDb" name="query" value={query} required />
+	<button type="submit">tìm kiếm</button>
+</form>
+
+<style>
+	form {
+		display: flex;
+		gap: 0.5rem;
+		margin: 0.8rem 0;
+		height: 2.2rem;
+	}
+	input {
+		flex: 1;
+		padding: 0 0.8rem;
+		border: 1px solid black;
+		border-radius: 0;
+		box-shadow: inset 2px 2px silver;
+		background: inherit;
+		&:focus {
+			outline: none;
+			box-shadow: 2px 2px silver;
+		}
+	}
+	button {
+		background: darkslategray;
+		color: white;
+		min-width: 7rem;
+		border: 1px solid black;
+		box-shadow: 2px 2px silver;
+		cursor: pointer;
+		&:hover, &:focus {
+			background: black;
+			color: white;
+		}
+		&:active {
+			transform: translate(1px, 1px);
+			box-shadow: 1px 1px silver;
+		}
+	}
+</style>
