@@ -27,7 +27,7 @@ function havePoster(media) {
 		<hr class="hr-dash">
 		<div class="list">
 		{movieList.map(item => (
-			<a href="#" class="item">
+			<a href={`/movie/${item.id}`} class="item">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
 				<div class="year">{getYear(item)}</div>
 				<div class="title">{item.title}</div>
@@ -43,7 +43,7 @@ function havePoster(media) {
 		<hr class="hr-dash">
 		<div class="list">
 		{tvList.map(item => (
-			<a href="#" class="item">
+			<a href={`/tv/${item.id}`} class="item">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
 				<div class="year">{getYear(item)}</div>
 				<div class="title">{item.name}</div>
@@ -54,15 +54,9 @@ function havePoster(media) {
 )}
 
 <style>
-	.hr-dot {
-    	height: 1.1rem;
-    	margin: .8rem 0;
-		border: none;
-		background: radial-gradient(gray .5px, transparent 1px) 0 0/3px 3px, transparent;
-	}
 	.hr-dash {
 		height: 1px;
-		margin: 1rem 0;
+		margin: .8rem 0 1rem;
 		border: none;
 		border-top: 1px dashed gray;
 	}
@@ -80,16 +74,6 @@ function havePoster(media) {
 		box-shadow: 2px 2px silver;
 		padding: .5rem;
 		outline: none;
-		&:hover, &:focus {
-			background: steelblue;
-			.title {
-				white-space: wrap;
-			}
-		}
-		&:active {
-			transform: translate(1px, 1px);
-			box-shadow: 1px 1px silver;
-		}
 		img {
 			display: block;
 			width: 100%;
@@ -116,6 +100,16 @@ function havePoster(media) {
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+		}
+		&:hover, &:focus {
+			background: steelblue;
+			.title {
+				white-space: wrap;
+			}
+		}
+		&:active {
+			transform: translate(1px, 1px);
+			box-shadow: 1px 1px silver;
 		}
 	}
 </style>

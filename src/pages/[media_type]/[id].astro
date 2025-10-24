@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro'
+
+const { media_type, id } = Astro.params
+const typeName = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
+---
+
+<Layout>
+	<b>{typeName} / {id}</b>
+	<hr class="hr-dot">
+</Layout>
+
