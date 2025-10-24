@@ -3,7 +3,7 @@ const query = Astro.url.searchParams.get('query') || ''
 ---
 
 <form action="/search">
-	<input type="search" placeholder="🔍 nhập tên phim | IMDb" name="query" value={query} required />
+	<input type="search" placeholder='🔍 nhập tên phim | link IMDb' name="query" value={query} required />
 	<button type="submit">tìm kiếm</button>
 </form>
 
