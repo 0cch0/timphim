@@ -34,7 +34,7 @@ const _title = `${title} (${year})`
 			<div class="subtitle"><b>{subtitle}</b></div>
 			<div class="genres">
 				{data.genres.map((genre) => (
-					<div class="genre">{genre.name}</div>
+					<div class="genre">{genre.name.replace('Phim ', '')}</div>
 				))}
 			</div>
 			<p class="tagline"><i>{data.tagline}</i></p>

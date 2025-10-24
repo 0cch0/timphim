@@ -7,8 +7,15 @@ const query = Astro.url.searchParams.get('query') || ''
 const title = `Tìm kiếm: ${query}`
 const res = await fetchTMDB('/search/multi', { query })
 const data = await res.json()
+const list = data.results.sort(byDate)
+
+function byDate(a, b) {
+	const dateA = new Date(a.release_date || a.first_air_date || null)
+	const dateB = new Date(b.release_date || b.first_air_date || null)
+	return dateB - dateA
+}
 ---
 
 <Layout title={title}>
-	<List title={title} list={data.results}>
+	<List title={title} list={list}>
 </Layout>

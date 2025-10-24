@@ -5,6 +5,7 @@ export function fetchTMDB(path: string, query?: Record<string, string | number>)
 
 	url.search = new URLSearchParams({
 	api_key: '5fc32caa702eec5a5336f8aa37f064c7',
+		//language: 'vi',
 		...query,
 	}).toString()
 
