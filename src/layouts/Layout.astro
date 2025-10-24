@@ -24,44 +24,65 @@ function getTitle(name = "Tìm Phim") {
 		</header>
 		<slot />
 	</body>
-	<style is:global>
-		* {
-			box-sizing: border-box;
-		}
-		a {
-			text-decoration: none;
-			color: inherit;
-			&:hover {
-				color: mediumblue;
-			}
-		}
-		input, button {
-			font-size: inherit;
-			outline: none;
-		}
-		html {
-			background: gainsboro;
-			font-family: 'Univers LT Pro', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-			font-size: 14px;
-			padding: 2rem 0.8rem;
-		}
-		body {
-			max-width: 60rem;
-			background: whitesmoke;
-			border: 1px solid gray;
-			box-shadow: 2px 2px silver;
-			margin: 0 auto;
-			padding: 1rem 1.4rem;
-		}
-		header {
-			padding-bottom: 1.5rem;
-		}
-		.hr-dot {
-    		height: 1.1rem;
-    		margin: .8rem 0;
-			border: none;
-			background: radial-gradient(gray .5px, transparent 1px) 0 0/3px 3px, transparent;
-		}
-	</style>
 </html>
 
+<style is:global>
+	* {
+		box-sizing: border-box;
+	}
+	a {
+		text-decoration: none;
+		color: inherit;
+		&:hover {
+			color: mediumblue;
+		}
+	}
+	input, button {
+		font-size: inherit;
+		outline: none;
+	}
+	html {
+		background: gainsboro;
+		font-family: 'Univers LT Pro', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+		font-size: 14px;
+		padding: 2rem 0.5rem;
+	}
+	body {
+		max-width: 60rem;
+		background: whitesmoke;
+		border: 1px solid gray;
+		box-shadow: 2px 2px silver;
+		margin: 0 auto;
+		padding: 1rem 1.4rem;
+	}
+	header {
+		padding-bottom: 1.5rem;
+	}
+	.hr-dot {
+		height: 1.1rem;
+		margin: .8rem 0;
+		border: none;
+		background: radial-gradient(gray .5px, transparent 1px) 0 0/3px 3px, transparent;
+	}
+	.hr-dash {
+		height: 1px;
+		margin: .8rem 0 1rem;
+		border: none;
+		border-top: 1px dashed gray;
+	}
+	.btn {
+		border: 1px solid black;
+		box-shadow: 2px 2px silver;
+		cursor: pointer;
+		background: gainsboro;
+		color: black;
+		&:hover, &:focus {
+			background: black !important;
+			color: white !important;
+		}
+		&:active {
+			transform: translate(1px, 1px);
+			box-shadow: 1px 1px silver;
+		}
+	}
+</style>
