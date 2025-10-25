@@ -1,11 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 import PersonList from '../../components/PersonList.astro'
-import { fetchTMDB } from '../../tmdb.ts'
+import tmdb from '../../tmdb.ts'
 
 const { media_type, media_id } = Astro.params
 const typeName = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
-const res = await fetchTMDB(`/${media_type}/${media_id}`, { append_to_response: 'credits' })
+const res = await tmdb.get(`/${media_type}/${media_id}`, { append_to_response: 'credits' })
 const data = await res.json()
 
 if (!data.id) {

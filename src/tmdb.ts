@@ -1,4 +1,4 @@
-export function fetchTMDB(path: string, query?: Record<string, string | number>) {
+function get(path: string, query?: Record<string, string | number>) {
 	const baseUrl = 'https://api.themoviedb.org/3'
 	const _path = path[0] == '/' ? path : '/' + path
 	const url = new URL(`${baseUrl}${_path}`)
@@ -11,3 +11,5 @@ export function fetchTMDB(path: string, query?: Record<string, string | number>)
 
 	return fetch(url.href)
 }
+
+export default { get }

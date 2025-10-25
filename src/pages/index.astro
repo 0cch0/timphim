@@ -1,9 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import MediaList from '../components/MediaList.astro'
-import { fetchTMDB } from '../tmdb.ts'
+import tmdb from '../tmdb.ts'
 
-const res = await fetchTMDB('/trending/all/day')
+const res = await tmdb.get('/trending/all/day')
 const data = await res.json()
 ---
 <Layout>

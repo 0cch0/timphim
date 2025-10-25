@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import MediaList from '../components/MediaList.astro'
-import { fetchTMDB } from '../tmdb.ts'
+import tmdb from '../tmdb.ts'
 
 const query = Astro.url.searchParams.get('query') || ''
 const title = `Tìm kiếm: ${query}`
@@ -9,11 +9,11 @@ let list = []
 
 const imdbIdMatch = query.match(/tt\d+/)
 if (!imdbIdMatch) {
-	const res = await fetchTMDB('/search/multi', { query })
+	const res = await tmdb.get('/search/multi', { query })
 	const data = await res.json()
 	list = data.results
 } else {
-	const res = await fetchTMDB(`/find/${imdbIdMatch[0]}`, { external_source: 'imdb_id' })
+	const res = await tmdb.get(`/find/${imdbIdMatch[0]}`, { external_source: 'imdb_id' })
 	const data = await res.json()
 	list = [...data.movie_results, ...data.tv_results]
 	if (list.length == 1) {
