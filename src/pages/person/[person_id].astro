@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import MediaList from '../../components/MediaList.astro'
+import { fetchTMDB } from '../../tmdb.ts'
+
+const person_id = Astro.params.person_id
+const res = await fetchTMDB(`/person/${person_id}`, { append_to_response: 'combined_credits' })
+const person = await res.json()
+const personType = person.known_for_department == 'Acting' ? 'Diễn viên' : 'Đạo diễn'
+let mediaList = []
+if (person.known_for_department == 'Acting') {
+	mediaList = person.combined_credits.cast
+} else {
+	mediaList = person.combined_credits.crew.filter(x => x.job == 'Director')
+}
+---
+
+<Layout title={person.name}>
+	<b>{personType} / {person.name}</b>
+	<hr class="hr-dot">
+
+	<div class="details">
+		<div>
+			<b>{person.name}</b>
+			<div class="subtitle"><b>{person.also_known_as.join(', ')}</b></div>
+			<p>{person.birthday}</p>
+			<p>{person.deathday}</p>
+		</div>
+		<div class="frame">
+			<img src={`https://image.tmdb.org/t/p/w300${person.profile_path}`} draggable="false" />
+		</div>
+	</div>
+
+	<MediaList list={mediaList} sortByDate />
+</Layout>
+
+<style>
+	.details {
+		margin: 2rem 0;
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: 1rem;
+		img {
+			width: 100%;
+			height: 100%;
+			aspect-ratio: 2/3;
+		}
+	}
+	.subtitle {
+		margin: .2rem 0;
+		color: gray;
+	}
+	p {
+		margin: .6rem 0;
+		line-height: 1.5rem;
+		word-spacing: .15rem;
+	}
+</style>

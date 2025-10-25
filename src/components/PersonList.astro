@@ -3,12 +3,12 @@ const list = Astro.props.list
 ---
 
 <div class="list">
-	{list.filter(x => x.profile_path).map((item) => (
-		<div class="item frame">
-			<img src={`https://image.tmdb.org/t/p/w200${item.profile_path}`} draggable="false" />
-			{item.job == 'Director' && (<div class="director">Đạo diễn</div>)}
-			<div class="name">{item.name}</div>
-		</div>
+	{list.filter(x => x.profile_path).map((person) => (
+	<a class="item frame" href={`/person/${person.id}`}>
+		<img src={`https://image.tmdb.org/t/p/w200${person.profile_path}`} draggable="false" />
+		{person.job == 'Director' && (<div class="director">Đạo diễn</div>)}
+		<div class="name">{person.name}</div>
+	</a>
 	))}
 </div>
 

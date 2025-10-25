@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import List from '../components/List.astro'
+import MediaList from '../components/MediaList.astro'
 import { fetchTMDB } from '../tmdb.ts'
 
 const query = Astro.url.searchParams.get('query') || ''
@@ -20,16 +20,10 @@ if (!imdbIdMatch) {
 		return Astro.redirect(`/${list[0].media_type}/${list[0].id}`)
 	}
 }
-
-list.sort(byDate)
-
-function byDate(a, b) {
-	const dateA = new Date(a.release_date || a.first_air_date || null)
-	const dateB = new Date(b.release_date || b.first_air_date || null)
-	return dateB - dateA
-}
 ---
 
 <Layout title={title}>
-	<List title={title} list={list}>
+	<b>{title}</b>
+	<hr class="hr-dot">
+	<MediaList list={list}>
 </Layout>

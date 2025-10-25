@@ -1,17 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro'
+import PersonList from '../../components/PersonList.astro'
 import { fetchTMDB } from '../../tmdb.ts'
 
-const { media_type, id } = Astro.params
+const { media_type, media_id } = Astro.params
 const typeName = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
-const res = await fetchTMDB(`/${media_type}/${id}`)
+const res = await fetchTMDB(`/${media_type}/${media_id}`, { append_to_response: 'credits' })
 const data = await res.json()
+
 if (!data.id) {
-	return new Response(null, { status: 404 })
 	return Astro.rewrite("/404")
 }
-const date = data.release_date || data.first_air_date
-const year = date.slice(0, 4)
+
 const title = data.title || data.name
 const originalTitle = data.original_title || data.original_name
 const subtitle = () => {
@@ -20,56 +20,58 @@ const subtitle = () => {
 	}
 	return ''
 }
+const date = data.release_date || data.first_air_date
+const year = date.slice(0, 4)
 
 const _title = `${title} (${year})`
+const personList = [...data.credits.crew.filter(x => x.job == 'Director'), ...data.credits.cast]
 ---
 
 <Layout title={_title}>
 	<b>{typeName} / {_title}</b>
 	<hr class="hr-dot">
 
-	<article>
+	<div class="details">
 		<div>
 			<b>{title}</b>
 			<div class="subtitle"><b>{subtitle}</b></div>
 			<div class="genres">
 				{data.genres.map((genre) => (
-					<div class="genre">{genre.name.replace('Phim ', '')}</div>
+					<div class="genre">{genre.name}</div>
 				))}
 			</div>
 			<p class="tagline"><i>{data.tagline}</i></p>
 			<p>{data.overview}</p>
 			<button class="btn btn-trailer">Xem Trailer</button>
 		</div>
-		<figure>
+		<div class="frame">
 			<img src={`https://image.tmdb.org/t/p/w300${data.poster_path}`} draggable="false" />
-		</figure>
-	</article>
+		</div>
+	</div>
+
+	<div>
+		<b>Diễn viên</b>
+		<hr class="hr-dash">
+		<PersonList list={personList} />
+	</div>
 </Layout>
 
 <style>
-	article {
+	.details {
 		margin: 2rem 0;
 		display: grid;
 		grid-template-columns: 1fr auto;
 		gap: 1rem;
+		img {
+			width: 100%;
+			height: 100%;
+			aspect-ratio: 2/3;
+		}
 	}
 	p {
 		margin: .6rem 0;
 		line-height: 1.5rem;
 		word-spacing: .15rem;
-	}
-	figure {
-		padding: .5rem;
-		margin: 0;
-		border: 1px solid gray;
-		box-shadow: 2px 2px silver;
-		img {
-			display: block;
-			width: 100%;
-			height: 100%;
-			aspect-ratio: 2 / 3;
-		}
 	}
 	.subtitle {
 		margin: .2rem 0;
@@ -85,7 +87,7 @@ const _title = `${title} (${year})`
 		margin: .8rem 0;
 	}
 	.genre {
-		padding: .1rem .5rem;
+		padding: .15rem .5rem;
 		border: 1px dotted gray;
 		text-transform: uppercase;
 		text-align: center;

@@ -1,11 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import List from '../components/List.astro'
+import MediaList from '../components/MediaList.astro'
 import { fetchTMDB } from '../tmdb.ts'
 
 const res = await fetchTMDB('/trending/all/day')
 const data = await res.json()
 ---
 <Layout>
-	<List title="Thịnh hành" list={data.results}>
+	<b>Thịnh hành</b>
+	<hr class="hr-dot">
+
+	<MediaList list={data.results}>
 </Layout>
