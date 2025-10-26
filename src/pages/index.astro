@@ -3,8 +3,7 @@ import Layout from '../layouts/Layout.astro'
 import MediaList from '../components/MediaList.astro'
 import tmdb from '../tmdb.ts'
 
-const res = await tmdb.get('/trending/all/day')
-const data = await res.json()
+const data = await tmdb.get('/trending/all/day')
 ---
 <Layout>
 	<b>Thịnh hành</b>

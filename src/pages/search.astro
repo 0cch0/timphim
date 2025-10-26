@@ -9,12 +9,10 @@ let list = []
 
 const imdbIdMatch = query.match(/tt\d+/)
 if (!imdbIdMatch) {
-	const res = await tmdb.get('/search/multi', { query })
-	const data = await res.json()
+	const data = await tmdb.get('/search/multi', { query })
 	list = data.results
 } else {
-	const res = await tmdb.get(`/find/${imdbIdMatch[0]}`, { external_source: 'imdb_id' })
-	const data = await res.json()
+	const data = await tmdb.get(`/find/${imdbIdMatch[0]}`, { external_source: 'imdb_id' })
 	list = [...data.movie_results, ...data.tv_results]
 	if (list.length == 1) {
 		return Astro.redirect(`/${list[0].media_type}/${list[0].id}`)

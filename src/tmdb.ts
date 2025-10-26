@@ -9,7 +9,7 @@ function get(path: string, query?: Record<string, string | number>) {
 		...query,
 	}).toString()
 
-	return fetch(url.href)
+	return fetch(url.href).then(res => res.json())
 }
 
 export default { get }

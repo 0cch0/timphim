@@ -4,8 +4,7 @@ import MediaList from '../../components/MediaList.astro'
 import tmdb from '../../tmdb.ts'
 
 const person_id = Astro.params.person_id
-const res = await tmdb.get(`/person/${person_id}`, { append_to_response: 'combined_credits' })
-const person = await res.json()
+const person = await tmdb.get(`/person/${person_id}`, { append_to_response: 'combined_credits' })
 const personType = person.known_for_department == 'Acting' ? 'Diễn viên' : 'Đạo diễn'
 let mediaList = []
 if (person.known_for_department == 'Acting') {
@@ -19,10 +18,9 @@ if (person.known_for_department == 'Acting') {
 	<b>{personType} / {person.name}</b>
 	<hr class="hr-dot">
 
-	<div class="details">
-		<div>
+	<div class="person">
+		<div class="details">
 			<b>{person.name}</b>
-			<div class="subtitle"><b>{person.also_known_as.join(', ')}</b></div>
 			<p>{person.birthday}</p>
 			<p>{person.deathday}</p>
 		</div>
@@ -35,7 +33,7 @@ if (person.known_for_department == 'Acting') {
 </Layout>
 
 <style>
-	.details {
+	.person {
 		margin: 2rem 0;
 		display: grid;
 		grid-template-columns: 1fr auto;
@@ -45,10 +43,6 @@ if (person.known_for_department == 'Acting') {
 			height: 100%;
 			aspect-ratio: 2/3;
 		}
-	}
-	.subtitle {
-		margin: .2rem 0;
-		color: gray;
 	}
 	p {
 		margin: .6rem 0;

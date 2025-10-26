@@ -5,26 +5,25 @@ import tmdb from '../../tmdb.ts'
 
 const { media_type, media_id } = Astro.params
 const typeName = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
-const res = await tmdb.get(`/${media_type}/${media_id}`, { append_to_response: 'credits' })
-const data = await res.json()
+const media = await tmdb.get(`/${media_type}/${media_id}`, { append_to_response: 'credits' })
 
-if (!data.id) {
+if (!media.id) {
 	return Astro.rewrite("/404")
 }
 
-const title = data.title || data.name
-const originalTitle = data.original_title || data.original_name
+const title = media.title || media.name
+const originalTitle = media.original_title || media.original_name
 const subtitle = () => {
 	if (title != originalTitle) {
 		return originalTitle
 	}
 	return ''
 }
-const date = data.release_date || data.first_air_date
+const date = media.release_date || media.first_air_date
 const year = date.slice(0, 4)
 
 const _title = `${title} (${year})`
-const personList = [...data.credits.crew.filter(x => x.job == 'Director'), ...data.credits.cast]
+const personList = [...media.credits.crew.filter(x => x.job == 'Director'), ...media.credits.cast]
 ---
 
 <Layout title={_title}>
@@ -36,16 +35,16 @@ const personList = [...data.credits.crew.filter(x => x.job == 'Director'), ...da
 			<b>{title}</b>
 			<div class="subtitle"><b>{subtitle}</b></div>
 			<div class="genres">
-				{data.genres.map((genre) => (
+				{media.genres.map((genre) => (
 					<div class="genre">{genre.name}</div>
 				))}
 			</div>
-			<p class="tagline"><i>{data.tagline}</i></p>
-			<p>{data.overview}</p>
+			<p class="tagline"><i>{media.tagline}</i></p>
+			<p>{media.overview}</p>
 			<button class="btn btn-trailer">Xem Trailer</button>
 		</div>
 		<div class="frame">
-			<img src={`https://image.tmdb.org/t/p/w300${data.poster_path}`} draggable="false" />
+			<img src={`https://image.tmdb.org/t/p/w300${media.poster_path}`} draggable="false" />
 		</div>
 	</div>
 
