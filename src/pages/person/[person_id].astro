@@ -5,17 +5,17 @@ import tmdb from '../../tmdb.ts'
 
 const person_id = Astro.params.person_id
 const person = await tmdb.get(`/person/${person_id}`, { append_to_response: 'combined_credits' })
-const personType = person.known_for_department == 'Acting' ? 'Diễn viên' : 'Đạo diễn'
-let mediaList = []
+const person_type = person.known_for_department == 'Acting' ? 'Diễn viên' : 'Đạo diễn'
+let media_list = []
 if (person.known_for_department == 'Acting') {
-	mediaList = person.combined_credits.cast
+	media_list = person.combined_credits.cast
 } else {
-	mediaList = person.combined_credits.crew.filter(x => x.job == 'Director')
+	media_list = person.combined_credits.crew.filter(x => x.job == 'Director')
 }
 ---
 
 <Layout title={person.name}>
-	<b>{personType} / {person.name}</b>
+	<b>{person_type} / {person.name}</b>
 	<hr class="hr-dot">
 
 	<div class="person">
@@ -29,7 +29,7 @@ if (person.known_for_department == 'Acting') {
 		</div>
 	</div>
 
-	<MediaList list={mediaList} sortByDate />
+	<MediaList list={media_list} sort_by_date />
 </Layout>
 
 <style>

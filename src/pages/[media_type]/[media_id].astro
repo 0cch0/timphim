@@ -4,7 +4,7 @@ import PersonList from '../../components/PersonList.astro'
 import tmdb from '../../tmdb.ts'
 
 const { media_type, media_id } = Astro.params
-const typeName = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
+const type_name = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
 const media = await tmdb.get(`/${media_type}/${media_id}`, { append_to_response: 'credits' })
 
 if (!media.id) {
@@ -12,10 +12,10 @@ if (!media.id) {
 }
 
 const title = media.title || media.name
-const originalTitle = media.original_title || media.original_name
+const original_title = media.original_title || media.original_name
 const subtitle = () => {
-	if (title != originalTitle) {
-		return originalTitle
+	if (title != original_title) {
+		return original_title
 	}
 	return ''
 }
@@ -23,11 +23,11 @@ const date = media.release_date || media.first_air_date
 const year = date.slice(0, 4)
 
 const _title = `${title} (${year})`
-const personList = [...media.credits.crew.filter(x => x.job == 'Director'), ...media.credits.cast]
+const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...media.credits.cast]
 ---
 
 <Layout title={_title}>
-	<b>{typeName} / {_title}</b>
+	<b>{type_name} / {_title}</b>
 	<hr class="hr-dot">
 
 	<div class="details">
@@ -51,7 +51,7 @@ const personList = [...media.credits.crew.filter(x => x.job == 'Director'), ...m
 	<div>
 		<b>Diễn viên</b>
 		<hr class="hr-dash">
-		<PersonList list={personList} />
+		<PersonList list={person_list} />
 	</div>
 </Layout>
 

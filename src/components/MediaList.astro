@@ -1,42 +1,42 @@
 ---
-const {list, sortByDate} = Astro.props
-const _list = list.filter(haveDate).filter(havePoster)
-if (sortByDate) {
-	_list.sort(byDate)
+const {list, sort_by_date} = Astro.props
+const _list = list.filter(have_date).filter(have_poster)
+if (sort_by_date) {
+	_list.sort(by_date)
 }
-const movieList = _list.filter(x => x.media_type == 'movie')
-const tvList = _list.filter(x => x.media_type == 'tv')
+const movie_list = _list.filter(x => x.media_type == 'movie')
+const tv_list = _list.filter(x => x.media_type == 'tv')
 
 
-function getYear(media) {
+function get_year(media) {
 	const date = media.release_date || media.first_air_date || ''
 	return date.slice(0, 4)
 }
 
-function haveDate(media) {
+function have_date(media) {
 	return media.release_date || media.first_air_date
 }
 
-function havePoster(media) {
+function have_poster(media) {
 	return media.poster_path
 }
 
-function byDate(a, b) {
+function by_date(a, b) {
 	const dateA = new Date(a.release_date || a.first_air_date || null)
 	const dateB = new Date(b.release_date || b.first_air_date || null)
 	return dateB - dateA
 }
 ---
 
-{movieList.length > 0 && (
+{movie_list.length > 0 && (
 	<div class="media-type">
 		<b>Phim lẻ</b>
 		<hr class="hr-dash">
 		<div class="list">
-		{movieList.map(item => (
+		{movie_list.map(item => (
 			<a href={`/movie/${item.id}`} class="item frame">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
-				<div class="year">{getYear(item)}</div>
+				<div class="year">{get_year(item)}</div>
 				<div class="title">{item.title}</div>
 			</a>
 		))}
@@ -44,15 +44,15 @@ function byDate(a, b) {
 	</div>
 )}
 
-{tvList.length > 0 && (
+{tv_list.length > 0 && (
 	<div class="media-type">
 		<b>Phim bộ</b>
 		<hr class="hr-dash">
 		<div class="list">
-		{tvList.map(item => (
+		{tv_list.map(item => (
 			<a href={`/tv/${item.id}`} class="item frame">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
-				<div class="year">{getYear(item)}</div>
+				<div class="year">{get_year(item)}</div>
 				<div class="title">{item.name}</div>
 			</a>
 		))}

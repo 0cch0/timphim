@@ -1,7 +1,7 @@
 ---
 import SearchForm from '../components/SearchForm.astro'
 
-function getTitle(name = "Tìm Phim") {
+function get_title(name = "Tìm Phim") {
 	const title = Astro.props.title
 	return title ? `${title} | ${name}` : name
 }
@@ -15,7 +15,7 @@ function getTitle(name = "Tìm Phim") {
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
-		<title>{getTitle()}</title>
+		<title>{get_title()}</title>
 	</head>
 	<body>
 		<header>
