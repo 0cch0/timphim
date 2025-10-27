@@ -2,10 +2,17 @@
 import Layout from '../../layouts/Layout.astro'
 import PersonList from '../../components/PersonList.astro'
 import tmdb from '../../tmdb.ts'
+import yts from '../../yts.ts'
 
 const { media_type, media_id } = Astro.params
 const type_name = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
-const media = await tmdb.get(`/${media_type}/${media_id}`, { append_to_response: 'credits' })
+const media = await tmdb.get(`/${media_type}/${media_id}`, { 
+	append_to_response: 'credits,external_ids'
+})
+
+if (media.external_ids.imdb_id) {
+	const torrent =  await yts.get(media.external_ids.imdb_id)
+}
 
 if (!media.id) {
 	return Astro.rewrite("/404")
@@ -30,8 +37,8 @@ const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...
 	<b>{type_name} / {_title}</b>
 	<hr class="hr-dot">
 
-	<div class="details">
-		<div>
+	<div class="media">
+		<div class="details">
 			<b>{title}</b>
 			<div class="subtitle"><b>{subtitle}</b></div>
 			<div class="genres">
@@ -56,16 +63,20 @@ const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...
 </Layout>
 
 <style>
-	.details {
+	.media {
 		margin: 2rem 0;
-		display: grid;
-		grid-template-columns: 1fr auto;
+		display: flex;
+		flex-wrap: wrap;
 		gap: 1rem;
 		img {
 			width: 100%;
 			height: 100%;
 			aspect-ratio: 2/3;
 		}
+	}
+	.details {
+		min-width: 22rem;
+		flex: 1;
 	}
 	p {
 		margin: .6rem 0;
