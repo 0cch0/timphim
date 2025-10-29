@@ -116,7 +116,7 @@ function size(bytes, decimals = 2) {
 			<tbody>
 				{torrents.map(t => (
 				<tr>
-					<td>{t.filename || '—'}</td>
+					<td><span class="text-wrap">{t.filename || '—'}</span></td>
 					<td>{quality(t)}</td>
 					<td>{size(t.size_bytes)}</td>
 					<td>{t.seeds || '—'}</td>
@@ -203,5 +203,10 @@ function size(bytes, decimals = 2) {
 		padding: .1rem 1rem;
 		background: steelblue;
 		color: white;
+	}
+	.text-wrap {
+		display: block;
+		max-width: 35rem;
+		text-wrap: wrap;
 	}
 </style>
