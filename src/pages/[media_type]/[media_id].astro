@@ -10,8 +10,12 @@ const media = await tmdb.get(`/${media_type}/${media_id}`, {
 	append_to_response: 'credits,external_ids'
 })
 
-if (media.external_ids.imdb_id) {
-	const torrent =  await yts.get(media.external_ids.imdb_id)
+let torrents = []
+if (media_type == 'movie' && media.external_ids.imdb_id) {
+	try {
+		const data = await yts.get(media.external_ids.imdb_id)
+		torrents = data.data?.movie?.torrents || []
+	} catch {}
 }
 
 if (!media.id) {
@@ -31,13 +35,17 @@ const year = date.slice(0, 4)
 
 const _title = `${title} (${year})`
 const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...media.credits.cast]
+
+function magnetLink(hash) {
+	return `magnet:?xt=urn:btih:${hash}`
+}
 ---
 
 <Layout title={_title}>
 	<b>{type_name} / {_title}</b>
 	<hr class="hr-dot">
 
-	<div class="media">
+	<div class="media m">
 		<div class="details">
 			<b>{title}</b>
 			<div class="subtitle"><b>{subtitle}</b></div>
@@ -48,23 +56,58 @@ const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...
 			</div>
 			<p class="tagline"><i>{media.tagline}</i></p>
 			<p>{media.overview}</p>
-			<button class="btn btn-trailer">Xem Trailer</button>
+			<button class="trailer">Xem Trailer</button>
 		</div>
 		<div class="frame">
 			<img src={`https://image.tmdb.org/t/p/w300${media.poster_path}`} draggable="false" />
 		</div>
 	</div>
 
-	<div>
+	<div class="m">
 		<b>Diễn viên</b>
 		<hr class="hr-dash">
 		<PersonList list={person_list} />
 	</div>
+
+	{torrents.length > 0 && (
+	<div class="m">
+		<b>Torrents</b>
+		<hr class="hr-dash">
+		<table>
+			<thead>
+				<tr>
+					<th style="width: 100%">Name</th>
+					<th>Quality</th>
+					<th style="min-width: 6rem">Size</th>
+					<th>Seeds</th>
+					<th>Link</th>
+				</tr>
+			</thead>
+			<tbody>
+				{torrents.map(t => (
+				<tr>
+					<td>—</td>
+					<td>{t.quality}</td>
+					<td>{t.size}</td>
+					<td>{t.seeds}</td>
+					<td>
+						<a href={magnetLink(t.hash)}>
+							<button class="magnet">MAGNET</button>
+						</a>
+					</td>
+				</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+	)}
 </Layout>
 
 <style>
-	.media {
+	.m {
 		margin: 2rem 0;
+	}
+	.media {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1rem;
@@ -102,8 +145,33 @@ const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...
 		text-transform: uppercase;
 		text-align: center;
 	}
-	.btn-trailer {
+	button.trailer {
 		margin: 1rem 0;
 		padding: .25rem 1.4rem;
+	}
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		border-spacing: 0;
+		border-top: 2px dotted silver;
+		border-left: 4px solid gray;
+		box-shadow: 2px 2px silver;
+		text-align: left;
+	}
+	th {
+		border-left: 1px solid silver;
+		border-right: 1px solid silver;
+		border-bottom: 1px solid black;
+	}
+	td {
+		border: 1px solid silver;
+	}
+	th, td {
+		padding: .2rem .4rem;
+	}
+	button.magnet {
+		padding: .1rem 1rem;
+		background: steelblue;
+		color: white;
 	}
 </style>
