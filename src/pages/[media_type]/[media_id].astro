@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro'
 import PersonList from '../../components/PersonList.astro'
 import tmdb from '../../tmdb.ts'
 import yts from '../../yts.ts'
+import eztv from '../../eztv.ts'
 
 const { media_type, media_id } = Astro.params
 const type_name = media_type == 'movie' ? 'Phim lẻ' : 'Phim bộ'
@@ -15,6 +16,13 @@ if (media_type == 'movie' && media.external_ids.imdb_id) {
 	try {
 		const data = await yts.get(media.external_ids.imdb_id)
 		torrents = data.data?.movie?.torrents || []
+	} catch {}
+}
+if (media_type == 'tv' && media.external_ids.imdb_id) {
+	try {
+		const data = await eztv.get(media.external_ids.imdb_id)
+		console.log(data)
+		torrents = data.torrents || []
 	} catch {}
 }
 
@@ -36,8 +44,31 @@ const year = date.slice(0, 4)
 const _title = `${title} (${year})`
 const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...media.credits.cast]
 
+function quality(torrent) {
+	if (torrent.quality) return torrent.quality
+	if (torrent.filename) {
+		if (torrent.filename.includes('480p')) return '480p'
+		if (torrent.filename.includes('720p')) return '720p'
+		if (torrent.filename.includes('1080p')) return '1080p'
+		if (torrent.filename.includes('2160p')) return '2160p'
+	}
+	return '—'
+}
+
 function magnetLink(hash) {
 	return `magnet:?xt=urn:btih:${hash}`
+}
+
+function size(bytes, decimals = 2) {
+  if (bytes === 0) return '0 Bytes';
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 ---
 
@@ -76,7 +107,7 @@ function magnetLink(hash) {
 		<table>
 			<thead>
 				<tr>
-					<th style="width: 100%">Name</th>
+					<th>Name</th>
 					<th>Quality</th>
 					<th style="min-width: 6rem">Size</th>
 					<th>Seeds</th>
@@ -86,9 +117,9 @@ function magnetLink(hash) {
 			<tbody>
 				{torrents.map(t => (
 				<tr>
-					<td>—</td>
-					<td>{t.quality}</td>
-					<td>{t.size}</td>
+					<td>{t.filename || '—'}</td>
+					<td>{quality(t)}</td>
+					<td>{size(t.size_bytes)}</td>
 					<td>{t.seeds}</td>
 					<td>
 						<a href={magnetLink(t.hash)}>
@@ -150,7 +181,6 @@ function magnetLink(hash) {
 		padding: .25rem 1.4rem;
 	}
 	table {
-		width: 100%;
 		border-collapse: collapse;
 		border-spacing: 0;
 		border-top: 2px dotted silver;
@@ -165,6 +195,7 @@ function magnetLink(hash) {
 	}
 	td {
 		border: 1px solid silver;
+		text-wrap: wrap;
 	}
 	th, td {
 		padding: .2rem .4rem;
