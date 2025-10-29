@@ -21,7 +21,6 @@ if (media_type == 'movie' && media.external_ids.imdb_id) {
 if (media_type == 'tv' && media.external_ids.imdb_id) {
 	try {
 		const data = await eztv.get(media.external_ids.imdb_id)
-		console.log(data)
 		torrents = data.torrents || []
 	} catch {}
 }
