@@ -119,7 +119,7 @@ function size(bytes, decimals = 2) {
 					<td>{t.filename || '—'}</td>
 					<td>{quality(t)}</td>
 					<td>{size(t.size_bytes)}</td>
-					<td>{t.seeds}</td>
+					<td>{t.seeds || '—'}</td>
 					<td>
 						<a href={magnetLink(t.hash)}>
 							<button class="magnet">MAGNET</button>
