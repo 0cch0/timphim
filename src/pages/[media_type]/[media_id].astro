@@ -134,7 +134,7 @@ function created(torrent) {
 			<tbody>
 				{torrents.map(t => (
 				<tr>
-					<td><span class="text-wrap">{t.filename || '—'}</span></td>
+					<td><div class="text-wrap">{t.filename || '—'}</div></td>
 					<td>{quality(t)}</td>
 					<td>{size(t.size_bytes)}</td>
 					<td>{t.seeds || '—'}</td>
@@ -224,7 +224,6 @@ function created(torrent) {
 		color: white;
 	}
 	.text-wrap {
-		display: block;
 		max-width: 29rem;
 		text-wrap: wrap;
 		word-wrap: break-word;
