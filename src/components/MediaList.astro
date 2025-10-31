@@ -36,7 +36,8 @@ function by_date(a, b) {
 		{movie_list.map(item => (
 			<a href={`/movie/${item.id}`} class="item frame">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
-				<div class="year">{get_year(item)}</div>
+				<div class="frame-tag" style="top:0; left:0">{get_year(item)}</div>
+				<div class="frame-tag" style="top:0; right:0">{item.original_language}</div>
 				<div class="frame-title">{item.title}</div>
 			</a>
 		))}
@@ -52,7 +53,8 @@ function by_date(a, b) {
 		{tv_list.map(item => (
 			<a href={`/tv/${item.id}`} class="item frame">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
-				<div class="year">{get_year(item)}</div>
+				<div class="frame-tag" style="top:0; left:0">{get_year(item)}</div>
+				<div class="frame-tag" style="top:0; right:0">{item.original_language}</div>
 				<div class="frame-title">{item.name}</div>
 			</a>
 		))}
@@ -76,15 +78,6 @@ function by_date(a, b) {
 			width: 100%;
 			height: 100%;
 			aspect-ratio: 2 / 3;
-		}
-		.year {
-			position: absolute;
-			top: .5rem;
-			left: .5rem;
-			padding: .125rem .5rem;
-			background: rgba(0, 0, 0, .5);
-			color: white;
-			font-size: 1.2rem;
 		}
 	}
 </style>
