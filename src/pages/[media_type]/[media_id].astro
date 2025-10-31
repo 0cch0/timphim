@@ -39,9 +39,18 @@ const subtitle = () => {
 }
 const date = media.release_date || media.first_air_date
 const year = date.slice(0, 4)
-
-const _title = `${title} (${year})`
 const person_list = [...media.credits.crew.filter(x => x.job == 'Director'), ...media.credits.cast]
+
+function pageTitle() {
+	let years = year
+	if (media.last_air_date) {
+		let lastYear = media.last_air_date.slice(0, 4)
+		if (lastYear != year) {
+			years += ' - ' + lastYear
+		}
+	}
+	return `${title} (${years})`
+}
 
 function quality(torrent) {
 	if (torrent.quality) return torrent.quality
@@ -68,8 +77,8 @@ function size(bytes, decimals = 2) {
 }
 ---
 
-<Layout title={_title}>
-	<b>{type_name} / {_title}</b>
+<Layout title={pageTitle()}>
+	<b>{type_name} / {pageTitle()}</b>
 	<hr class="hr-dot">
 
 	<div class="media m">
