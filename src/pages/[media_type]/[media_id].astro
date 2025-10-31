@@ -75,6 +75,12 @@ function size(bytes, decimals = 2) {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
+
+function created(torrent) {
+	const unix = torrent.date_uploaded_unix || torrent.date_released_unix
+	const date = new Date(unix * 1000)
+	return date.toLocaleDateString('en-CA')
+}
 ---
 
 <Layout title={pageTitle()}>
@@ -121,6 +127,7 @@ function size(bytes, decimals = 2) {
 					<th>Quality</th>
 					<th style="min-width: 6rem">Size</th>
 					<th>Seeds</th>
+					<th style="min-width: 6rem">Created</th>
 					<th>Link</th>
 				</tr>
 			</thead>
@@ -131,6 +138,7 @@ function size(bytes, decimals = 2) {
 					<td>{quality(t)}</td>
 					<td>{size(t.size_bytes)}</td>
 					<td>{t.seeds || '—'}</td>
+					<td>{created(t)}</td>
 					<td>
 						<a href={magnetLink(t.hash)}>
 							<button class="magnet">MAGNET</button>
@@ -201,7 +209,7 @@ function size(bytes, decimals = 2) {
 	th {
 		border-left: 1px solid silver;
 		border-right: 1px solid silver;
-		border-bottom: 1px solid black;
+		border-bottom: 1px solid gray;
 	}
 	td {
 		border: 1px solid silver;
@@ -217,7 +225,8 @@ function size(bytes, decimals = 2) {
 	}
 	.text-wrap {
 		display: block;
-		max-width: 35rem;
+		max-width: 29rem;
 		text-wrap: wrap;
+		word-wrap: break-word;
 	}
 </style>
