@@ -67,6 +67,10 @@ function magnetLink(hash) {
 	return `magnet:?xt=urn:btih:${hash}`
 }
 
+function trailerLink() {
+	return `https://www.youtube.com/results?search_query=${title}+trailer`
+}
+
 function size(bytes, decimals = 2) {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;
@@ -98,7 +102,9 @@ function created(torrent) {
 			</div>
 			<p class="tagline"><i>{media.tagline}</i></p>
 			<p>{media.overview}</p>
-			<button class="trailer">Xem Trailer</button>
+			<a href={trailerLink()} target="_blank">
+				<button class="trailer">Xem Trailer</button>
+			</a>
 		</div>
 		<div class="frame">
 			<img src={`https://image.tmdb.org/t/p/w300${media.poster_path}`} draggable="false" />
