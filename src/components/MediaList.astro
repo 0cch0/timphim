@@ -37,7 +37,7 @@ function by_date(a, b) {
 			<a href={`/movie/${item.id}`} class="item frame">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
 				<div class="year">{get_year(item)}</div>
-				<div class="title">{item.title}</div>
+				<div class="frame-title">{item.title}</div>
 			</a>
 		))}
 		</div>
@@ -53,7 +53,7 @@ function by_date(a, b) {
 			<a href={`/tv/${item.id}`} class="item frame">
 				<img src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} draggable="false" />
 				<div class="year">{get_year(item)}</div>
-				<div class="title">{item.name}</div>
+				<div class="frame-title">{item.name}</div>
 			</a>
 		))}
 		</div>
@@ -85,23 +85,6 @@ function by_date(a, b) {
 			background: rgba(0, 0, 0, .5);
 			color: white;
 			font-size: 1.2rem;
-		}
-		.title {
-			position: absolute;
-			left: .5rem;
-			right: .5rem;
-			bottom: .5rem;
-			padding: .25rem .5rem;
-			background: rgba(0, 0, 0, .5);
-			color: white;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-		}
-		&:hover, &:focus {
-			.title {
-				white-space: wrap;
-			}
 		}
 	}
 </style>
