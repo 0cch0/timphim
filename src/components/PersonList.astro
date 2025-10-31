@@ -6,7 +6,9 @@ const list = Astro.props.list
 	{list.filter(x => x.profile_path).map((person) => (
 	<a class="item frame" href={`/person/${person.id}`}>
 		<img src={`https://image.tmdb.org/t/p/w200${person.profile_path}`} draggable="false" />
-		{person.job == 'Director' && (<div class="director">Đạo diễn</div>)}
+		{person.job == 'Director' && (
+		<div class="frame-tag" style="top:0;left:0;font-size:1rem;">Đạo diễn</div>
+		)}
 		<div class="frame-title">{person.name}</div>
 	</a>
 	))}
@@ -26,13 +28,5 @@ const list = Astro.props.list
 			width: 10rem;
 			aspect-ratio: 2/3;
 		}
-	}
-	.director {
-		position: absolute;
-		top: .5rem;
-		left: .5rem;
-		padding: .125rem .5rem;
-		background: rgba(0, 0, 0, .5);
-		color: white;
 	}
 </style>
