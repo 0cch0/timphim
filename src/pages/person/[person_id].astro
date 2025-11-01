@@ -4,13 +4,21 @@ import MediaList from '../../components/MediaList.astro'
 import tmdb from '../../tmdb.ts'
 
 const person_id = Astro.params.person_id
-const person = await tmdb.get(`/person/${person_id}`, { append_to_response: 'combined_credits' })
+const person = await tmdb.get(`/person/${person_id}`, { 
+	append_to_response: 'combined_credits,external_ids' 
+})
+
 const person_type = person.known_for_department == 'Acting' ? 'Diễn viên' : 'Đạo diễn'
 let media_list = []
 if (person.known_for_department == 'Acting') {
 	media_list = person.combined_credits.cast
 } else {
 	media_list = person.combined_credits.crew.filter(x => x.job == 'Director')
+}
+const ig_id = person.external_ids.instagram_id
+
+function ig_link(id) {
+	return `https://instagram.com/${id}`
 }
 ---
 
@@ -22,6 +30,11 @@ if (person.known_for_department == 'Acting') {
 		<div class="details">
 			<b>{person.name}</b>
 			<p>{person.biography}</p>
+			{ig_id && (
+			<a href={ig_link(ig_id)} target="_blank">
+				<button class="ig">Instagram</button>
+			</a>
+			)}
 		</div>
 		<div>
 		<div class="frame">
@@ -56,5 +69,10 @@ if (person.known_for_department == 'Acting') {
 		margin: .6rem 0;
 		line-height: 1.5rem;
 		word-spacing: .15rem;
+	}
+	button.ig {
+		padding: .3rem 1.2rem;
+		background: steelblue;
+		color: whitesmoke;
 	}
 </style>
