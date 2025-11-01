@@ -68,7 +68,13 @@ function magnetLink(hash) {
 }
 
 function trailerLink() {
-	return `https://www.youtube.com/results?search_query=${title}+trailer`
+	const query = title.replace(' ', '+')
+	return `https://www.youtube.com/results?search_query=${query}+trailer`
+}
+
+function subtitlesLink() {
+	const query = title.replace(' ', '+')
+	return `https://subsource.net/search?q=${query}`
 }
 
 function size(bytes, decimals = 2) {
@@ -104,6 +110,9 @@ function created(torrent) {
 			<p>{media.overview}</p>
 			<a href={trailerLink()} target="_blank">
 				<button class="trailer">Xem Trailer</button>
+			</a>
+			<a href={subtitlesLink()} target="_blank" style="margin-left: 0.5rem;">
+				<button class="trailer">Phụ đề</button>
 			</a>
 		</div>
 		<div class="frame">
