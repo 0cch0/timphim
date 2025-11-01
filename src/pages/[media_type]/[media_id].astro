@@ -68,12 +68,12 @@ function magnetLink(hash) {
 }
 
 function trailerLink() {
-	const query = title.replace(' ', '+')
+	const query = title.replaceAll(' ', '+')
 	return `https://www.youtube.com/results?search_query=${query}+trailer`
 }
 
 function subtitlesLink() {
-	const query = title.replace(' ', '+')
+	const query = title.replaceAll(' ', '+')
 	return `https://subsource.net/search?q=${query}`
 }
 
