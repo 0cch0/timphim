@@ -3,9 +3,19 @@ const query = Astro.url.searchParams.get('query') || ''
 ---
 
 <form action="/search">
-	<input type="search" placeholder='🔍 tên phim | link IMDb' name="query" value={query} required />
+	<input id="search-input" type="search" placeholder='🔍 tên phim | link IMDb' name="query" value={query} required />
 	<button type="submit">tìm kiếm</button>
 </form>
+
+<script>
+window.addEventListener('keydown', (event) => {
+	const el = document.getElementById("search-input")
+	const isActive = document.activeElement === el
+	if (isActive || event.key != '/') return
+	el.focus()
+	event.preventDefault()
+})
+</script>
 
 <style>
 	form {
