@@ -64,7 +64,7 @@ function quality(torrent) {
 }
 
 function magnetLink(hash) {
-	return `magnet:?xt=urn:btih:${hash}`
+	return `magnet:?xt=urn:btih:${hash}&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.demonoid.ch:6969/announce&tr=udp://open.demonii.com:1337/announce`
 }
 
 function trailerLink() {
