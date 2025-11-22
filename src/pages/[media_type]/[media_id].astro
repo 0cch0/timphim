@@ -77,6 +77,10 @@ function subtitlesLink() {
 	return `https://subsource.net/search?q=${query}`
 }
 
+function knabenLink() {
+	return `https://knaben.org/search/${title}/0/1/seeders`
+}
+
 function size(bytes, decimals = 2) {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;
@@ -113,6 +117,9 @@ function created(torrent) {
 			</a>
 			<a href={subtitlesLink()} target="_blank" style="margin-left: 0.5rem;">
 				<button class="trailer">Phụ đề</button>
+			</a>
+			<a href={knabenLink()} target="_blank" style="margin-left: 0.5rem;">
+				<button class="trailer">Torrent</button>
 			</a>
 		</div>
 		<div class="frame">
