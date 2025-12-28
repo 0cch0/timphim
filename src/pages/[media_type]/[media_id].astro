@@ -81,6 +81,10 @@ function knabenLink() {
 	return `https://knaben.org/search/${title}/0/1/seeders`
 }
 
+function tmdbLink() {
+	return `https://www.themoviedb.org/${media_type}/${media_id}`
+}
+
 function size(bytes, decimals = 2) {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;
@@ -120,6 +124,9 @@ function created(torrent) {
 			</a>
 			<a href={knabenLink()} target="_blank" style="margin-left: 0.5rem;">
 				<button class="trailer">Torrent</button>
+			</a>
+			<a href={tmdbLink()} target="_blank" style="margin-left: 0.5rem;">
+				<button class="trailer">TMDb</button>
 			</a>
 		</div>
 		<div class="frame">
